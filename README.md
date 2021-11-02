@@ -1,4 +1,4 @@
-# e- Yantra 2021 - DairyBike
+# e-Yantra 2021 - DairyBike
 ## Task - 1
   #### Task [1.1] <**Main_File.m**>
     
@@ -74,3 +74,72 @@
     
    ![image](https://user-images.githubusercontent.com/78234306/139843280-c62ae789-5e8c-4cd0-accd-222f05979730.png)
 
+    check_eigen_values()
+    1) function [eigen_values stability] =  check_eigen_values(x_1, x_2, jacobian_matrices)
+    2) stability = {};
+    3) eigen_values = {};
+    4) for k = 1:length(jacobian_matrices)
+    5)    matrix = jacobian_matrices{k};
+    6)    flag = 1;
+
+    #####################   ADD YOUR CODE HERE  #####################
+
+    #################################################################
+
+    7)    if flag == 1
+    8)      fprintf("The system is stable for equilibrium point(%d, %d)\n",double(eqbm_pts{k}.x1),double(eqbm_pts{k}.x2));
+    9)      stability{k} = "Stable";
+    10)   else
+    11)     fprintf("The system is unstable for equilibrium point (%d, %d) \n",double(eqbm_pts{k}.x1),double(eqbm_pts{k}.x2));
+    12)     stability{k} = "Unstable";
+    13)   endif
+    14) endfor
+    15) endfunction	
+
+    This function takes the x_1, x_2 and jacobian_matrices as input. For each jacobian matrix stored in jacobian_matrices, the eigenvalues of matrix are calculated and stored in the cell array eigen_values. Subsequently the eigenvalues are checked in this function. If for any jacobian matrix the eigenvalues have positive real part, the system is unstable at the corresponding equilibrium point. If all eigenvalues have negative real part, the system is stable at the corresponding equilibrium point.
+    
+    Two empty cell arrays stability and eigen_values are defined. A for-loop is iterated through the length of jacobian_matrices. Within the for-loop, flag = 1 is initialized. You are required to write code which does the following:
+        Find out the eigenvalues for the current jacobian matrix (value stored in matrix)
+        Check real part of all eigenvalues of the matrix. If all eigenvalues have negative real part, then flag is set equal to 1.
+        If even one eigenvalue is positive (greater than zero), the flag is set to 0.
+        Store the eigenvalues calculated in the cell array eigen_values.
+        Based on value of flag, the stability of system is reported in the if-else statement.
+        
+    When you display the eigen_values and stability cell arrays (using disp() in octave) the output should be similar to the following:
+    
+   ![image](https://user-images.githubusercontent.com/78234306/139844197-70f98ffe-17f2-4f96-9898-aa97f54ca809.png)
+   
+    main_function()
+    1. function [x_1 x_2 jacobians eigen_values stability] = main_function(x1_dot, x2_dot)
+    2. 			pkg load symbolic;
+    3. 			syms x1 x2;
+    4.			[x_1, x_2] = find_equilibrium_points(x1_dot, x2_dot);
+    5.			jacobians = find_jacobian_matrices(x_1, x_2, x1_dot, x2_dot);
+    6.			[eigen_values stability] = check_eigen_values (x_1, x_2, jacobians);
+    7. endfunction
+    
+    This function puts together all the pieces.
+
+    It takes x1_dot and x2_dot as argument. First the equilibrium points are calculated. For each equilibrium point, the jacobian matrix is calculated. Then the stability for each equilibrium point is determined by computing the eigen_values and checking the real parts of eigen values.
+
+    This equation returns x_1, x_2, jacobians, eigen_values, stability.
+    You are not allowed to make any changes to this function. You need to run it as it is.
+    After you have modified the functions explained above as instructed. You need to test your solution.
+    
+    To test your script, you need to run Main_File.m in octave. If your solution is correct you will see the following octave prompt:
+    
+   ![image](https://user-images.githubusercontent.com/78234306/139845033-32338db0-dd47-4288-bc12-e182d177615b.png)
+
+  #### Task [1.1] <**Test_Suite.m**> (Testing Solution)
+  
+    Test_Suite.m is used for testing your solution. You are not allowed to make any changes in this script.
+    
+    The Test_Suite script has a set of non-linear equations. If your code runs successfully for the given equations then the output should be as follows:
+    
+   ![image](https://user-images.githubusercontent.com/78234306/139845377-a47ac1b8-7bde-4fb5-a2b5-ef5a78e542de.png)
+   
+    If your Test_Suite runs successfully, your Function_File.m file is ready to be submitted
+        For successful completion of Task 1_1, upload the Function_File.m file on the portal.
+        Now, open the portal and go to Task 1. In the Task 1 Upload section select Task 1A.
+        Now select Choose file button to upload the file. From the dialogue box, select the file and click Open.
+        You shall see the file name Function_File.m in text-box besides the Choose file button. Click on Upload Task button to submit the file.
