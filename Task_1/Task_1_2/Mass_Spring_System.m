@@ -26,7 +26,7 @@ pkg load control;
 ##*        http://creativecommons.org/licenses/by-nc-sa/4.0/legalcode 
 ##*     
 ##*
-##*  This software is made available on an “AS IS WHERE IS BASIS”. 
+##*  This software is made available on an ï¿½AS IS WHERE IS BASISï¿½. 
 ##*  Licensee/end user indemnifies and will keep e-Yantra indemnified from
 ##*  any and all claim(s) that emanate from the use of the Software or 
 ##*  breach of the terms of this agreement.
@@ -79,7 +79,7 @@ endfunction
 function dy = mass_spring_dynamics(y, m, k, u)
   
   dy(1,1) = y(2);
-  dy(2,1) = ;
+  dy(2,1) = (u-k*y(1))/m;
 endfunction
 
 ## Function : sim_mass_spring()
@@ -98,7 +98,7 @@ endfunction
 function [t,y] = sim_mass_spring(m, k, y0)
   tspan = 0:0.1:10;                ## Initialize time step
   u = 0;                           ## No input
-  [t,y] = ;
+  [t,y] = ode45(@(t,y)mass_spring_dynamics(y, m, k, u),tspan,y0);
 endfunction
 
 ## Function : mass_spring_AB_matrix()
@@ -111,8 +111,8 @@ endfunction
 ##          
 ## Purpose: Declare the A and B matrices in this function.
 function [A,B] = mass_spring_AB_matrix(m, k)
-  A = ;
-  B = ;
+  A = [0 1 ; -k/m 0];
+  B = [0 ; 1/m];
 endfunction
 
 ## Function : pole_place_mass_spring()
@@ -131,11 +131,11 @@ endfunction
 ##          tf = 10 with initial condition y0 and input u = -Kx where K is
 ##          calculated using Pole Placement Technique.
 function [t,y] = pole_place_mass_spring(m, k, y_setpoint, y0)
-  [A,B] = ;  ## Initialize A and B matrix 
-  eigs = ;                    ## Initialise desired eigenvalues
-  K = ;                ## Calculate K matrix for desired eigenvalues
+  [A,B] = mass_spring_AB_matrix(m, k);  ## Initialize A and B matrix 
+  eigs = [-1 -300];                    ## Initialise desired eigenvalues
+  K = place(A, B, eigs);                ## Calculate K matrix for desired eigenvalues
   tspan = 0:0.1:10;                   ## Initialise time step 
-  [t,y] = ;
+  [t,y] = ode45(@(t,y)mass_spring_dynamics(y, m, k, -K*(y-y_setpoint)),tspan,y0);
 endfunction
 
 ## Function : lqr_mass_spring()
@@ -154,13 +154,13 @@ endfunction
 ##          tf = 10 with initial condition y0 and input u = -Kx where K is
 ##          calculated using LQR
 function [t,y] = lqr_mass_spring(m, k, y_setpoint, y0)
-  [A,B] = ;  ## Initialize A and B matrix 
+  [A,B] = mass_spring_AB_matrix(m, k);  ## Initialize A and B matrix 
   
-  Q = ;                  ## Initialise desired eigenvalues
-  R = ;               ## Calculate K matrix for desired eigenvalues
-  K = ;
+  Q = [1 0 ; 0 0.5];                  ## Initialise desired eigenvalues
+  R = 0.0001;               ## Calculate K matrix for desired eigenvalues
+  K = lqr(A, B, Q, R);
   tspan = 0:0.1:10;                   ## Initialise time step 
-  [t,y] = ;
+  [t,y] = ode45(@(t,y)mass_spring_dynamics(y, m, k, -K*(y-y_setpoint)),tspan,y0);
 endfunction
 
 ## Function : mass_spring_main()
