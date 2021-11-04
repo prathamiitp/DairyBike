@@ -26,7 +26,7 @@ pkg load control;
 ##*        http://creativecommons.org/licenses/by-nc-sa/4.0/legalcode 
 ##*     
 ##*
-##*  This software is made available on an “AS IS WHERE IS BASIS”. 
+##*  This software is made available on an ï¿½AS IS WHERE IS BASISï¿½. 
 ##*  Licensee/end user indemnifies and will keep e-Yantra indemnified from
 ##*  any and all claim(s) that emanate from the use of the Software or 
 ##*  breach of the terms of this agreement.
@@ -82,7 +82,7 @@ function dy = pendulum_dynamics(y, m, L, g, u)
   sin_theta = sin(y(1));
   cos_theta = cos(y(1));
   dy(1,1) = y(2);                                  
-  dy(2,1) = ;    
+  dy(2,1) = (-g*sin_theta/L)+u/(m*L*L);    
 endfunction
 
 ## Function : sim_pendulum()
@@ -116,7 +116,7 @@ endfunction
 ## Purpose: Declare the A and B matrices in this function.
 function [A,B] = pendulum_AB_matrix(m, g, L)
   A = [0 1; g/L 0];
-  B = ;
+  B = [0 ; 1/(m*L*L)];
 endfunction
 
 ## Function : pole_place_pendulum()
@@ -134,9 +134,9 @@ endfunction
 ##          tf = 10 with initial condition y0 and input u = -Kx where K is
 ##          calculated using Pole Placement Technique.
 function [t,y] = pole_place_pendulum(m, g, L, y_setpoint, y0)
-  [A,B] = ;                            ## Initialize A and B matrix
-  eigs = ;                             ## Initialise desired eigenvalues
-  K = ;                           ## Calculate K matrix for desired eigenvalues
+  [A,B] = pendulum_AB_matrix(m, g, L);                            ## Initialize A and B matrix
+  eigs = [-5 -2];                             ## Initialise desired eigenvalues
+  K = place(A, B, eigs);                           ## Calculate K matrix for desired eigenvalues
   tspan = 0:0.1:10;                  ## Initialise time step 
   [t,y] = ode45(@(t,y)pendulum_dynamics(y, m, L, g, -K*(y-y_setpoint)),tspan,y0);
 endfunction
@@ -156,10 +156,10 @@ endfunction
 ##          tf = 10 with initial condition y0 and input u = -Kx where K is
 ##          calculated using LQR technique.
 function [t,y] = lqr_pendulum(m, g, L, y_setpoint, y0)
-  [A,B] = ;               ## Initialize A and B matrix
-  Q = ;                   ## Initialise Q matrix
-  R = ;                   ## Initialise R 
-  K = ;                   ## Calculate K matrix from A,B,Q,R matrices
+  [A,B] = pendulum_AB_matrix(m, g, L);               ## Initialize A and B matrix
+  Q = [1 0 ; 0 1];                   ## Initialise Q matrix
+  R = 1;                   ## Initialise R 
+  K = lqr(A, B, Q, R);                   ## Calculate K matrix from A,B,Q,R matrices
   tspan = 0:0.1:10;                  ## Initialise time step 
   [t,y] = ode45(@(t,y)pendulum_dynamics(y, m, L, g, -K*(y-y_setpoint)),tspan,y0);
 endfunction
@@ -175,8 +175,8 @@ function simple_pendulum_main()
   L = 0.5;
   y_setpoint = [pi; 0];                ## Set Point 
   y0 = [pi/6 ; 0];                   ## Initial condtion
-  [t,y] = sim_pendulum(m,g,L, y0);        ## Test Simple Pendulum
-##  [t,y] = pole_place_pendulum(m,g,L, y_setpoint, y0) ## Test Simple Pendulum with Pole Placement Controller
+##  [t,y] = sim_pendulum(m,g,L, y0);        ## Test Simple Pendulum
+  [t,y] = pole_place_pendulum(m,g,L, y_setpoint, y0) ## Test Simple Pendulum with Pole Placement Controller
 ##  [t,y] = lqr_pendulum(m,g,L, y_setpoint, y0);        ## Test Simple Pendulum with LQR Controller
   for k = 1:length(t)
     draw_pendulum(y(k, :), L);  
