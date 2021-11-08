@@ -75,7 +75,7 @@ function [eigen_values stability] = check_eigen_values(x_1, x_2, jacobian_matric
 
     syms s;
     output_precision(14)
-    eigen_values{k} = double(solve(det(s*[1 0;0 1]-jacobian_matrices{k})==0));
+    eigen_values{k} = double(solve(det(s*[1 0;0 1]-matrix)==0));
     if (real(eigen_values{k}(1))>0)
       flag = 0;
     endif
