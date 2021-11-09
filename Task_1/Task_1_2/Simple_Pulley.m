@@ -172,7 +172,7 @@ endfunction
 ##          calculated using LQR
 function [t,y] = lqr_pulley(m1, m2, g, r, y_setpoint, y0)
   
-  [A, B] = pulley_AB_matrix(m1, m2, g, r);
+  [A, B] = pulley_AB_matrix(m1, m2, g, r);  
   Q = [1 0 ; 0 1];                 
   R = 0.01;               
   K = lqr(A, B, Q, R);
@@ -194,8 +194,8 @@ function simple_pulley_main()
   y_setpoint = [0.4; 0];              ## Set Point
   
 ##  [t,y] = sim_pulley(m1, m2, g, r, y0);
-##  [t,y] = pole_place_pulley(m1, m2, g, r, y_setpoint, y0)
-  [t,y] = lqr_pulley(m1, m2, g, r, y_setpoint, y0)
+##  [t,y] = pole_place_pulley(m1, m2, g, r, y_setpoint, y0);
+  [t,y] = lqr_pulley(m1, m2, g, r, y_setpoint, y0);
   
   for k = 1:length(t)
     draw_pulley(y(k, :));  
