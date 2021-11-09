@@ -28,7 +28,7 @@ pkg load image;
 ##*        http://creativecommons.org/licenses/by-nc-sa/4.0/legalcode 
 ##*     
 ##*
-##*  This software is made available on an �AS IS WHERE IS BASIS�. 
+##*  This software is made available on an ï¿½AS IS WHERE IS BASISï¿½. 
 ##*  Licensee/end user indemnifies and will keep e-Yantra indemnified from
 ##*  any and all claim(s) that emanate from the use of the Software or 
 ##*  breach of the terms of this agreement.
@@ -65,7 +65,7 @@ function draw_RW_pendulum(y,m1, m2, l1, wr)
   center = [px py];
   rotation = alpha;
   rotTForm = [cos(rotation) sin(rotation); -sin(rotation) cos(rotation)];
-  #viscircles(center,radius,'Color','b');
+  ## viscircles(center,radius,'Color','b');
   
   hold on
   centerLines = center + [0 radius; 0 0; radius 0];
@@ -98,12 +98,16 @@ endfunction
 ##          govern this system.
 function dy = RW_pendulum_dynamics(y, m1, m2, l1, wr, g, u)
   ##u=2*u
-  I1=;
-  I2=;
-  dy(1,1) = ;
-  dy(2,1) = ;
-  dy(3,1) = ;
-  dy(4,1) = ;
+  m = m1 + m2;
+  I1= m1*l1*l1/3;    # Moment of Inertia of pendulum bar
+  I2= m2*wr*wr/2;    # Moment of Inertia of reaction wheel
+  I = I1 + I2 + m2*l1*l1;
+  l = (m1*l1/2 + m2*l1)/m;
+  dy(1,1) = y(2);
+  dy(2,1) = (-m*g*l*sin(y(1))+u)/I;
+  dy(3,1) = y(4);
+  dy(4,1) = u/I2;
+  
 endfunction
 
 ## Function : sim_RW_pendulum()
@@ -112,7 +116,7 @@ endfunction
 ##          m2 - Mass of reaction wheel
 ##          l1 - Length of pendulum bar
 ##          g  - Acceleration due to gravity
-##          y0 - Initial Condition of system
+##          y0 - Initial Condition RW_pendulum_main()of system
 ##
 ## Output:  t - Timestep
 ##          y - Solution array
@@ -124,7 +128,7 @@ endfunction
 function [t,y] = sim_RW_pendulum(m1, m2, l1, wr, g, y0)
   tspan = 0:0.1:10;                  ## Initialise time step           
   u = 0;                             ## No Input
-  [t,y] = ; ## Solving the differential equation    
+  [t,y] = ode45(@(t,y)RW_pendulum_dynamics(y, m1, m2, l1, wr, g, u),tspan,y0);  ## Solving the differential equation    
 endfunction
 
 ## Function : RW_pendulum_AB_matrix()
@@ -139,10 +143,13 @@ endfunction
 ##          
 ## Purpose: Declare the A and B matrices in this function.
 function [A, B] = RW_pendulum_AB_matrix(m1 , m2, l1, wr, g)
-  I1= ;  # Moment of Inertia of pendulum bar
-  I2= ; # Moment of Inertia of reaction wheel
-  A = ;
-  B = ;  
+  m = m1 + m2;
+  I1= m1*l1*l1/3;    # Moment of Inertia of pendulum bar
+  I2= m2*wr*wr/2;    # Moment of Inertia of reaction wheel
+  I = I1 + m2*l1*l1;
+  l = (m1*l1/2 + m2*l1)/m;
+  A = [0 1 0 0 ; m*g*l/I 0 0 0 ; 0 0 0 1 ; 0 0 0 0];
+  B = [0 ; 1/I ; 0 ; 1/I2];  
 endfunction
 
 ## Function : pole_place_RW_pendulum()
@@ -164,8 +171,11 @@ endfunction
 ##          calculated using Pole Placement Technique.
 function [t,y] = pole_place_RW_pendulum(m1, m2, l1, wr, g, y_setpoint, y0)
   
-  tspan = 0:0.1:10;
-  [t,y] = ;
+  [A, B] = RW_pendulum_AB_matrix(m1 , m2, l1, wr, g);  
+  eigs = [-1 -1 -1 -1];                    
+  K = place(A, B, eigs);
+  tspan = 0:0.1:20;
+  [t,y] = ode45(@(t,y)RW_pendulum_dynamics(y, m1, m2, l1, wr, g, -K*(y-y_setpoint)),tspan,y0);
 endfunction
 
 ## Function : lqr_RW_pendulum()
@@ -187,8 +197,12 @@ endfunction
 ##          calculated using LQR Controller.
 function [t,y] = lqr_RW_pendulum(m1, m2, l1, wr, g, y_setpoint, y0)
   
+  [A, B] = RW_pendulum_AB_matrix(m1 , m2, l1, wr, g);
+  Q = [1000000 0 0 0 ; 0 1 0 0 ; 0 0 1 0 ; 0 0 0 1];                 
+  R = 0.001;               
+  K = lqr(A, B, Q, R);
   tspan = 0:0.1:10; # Time Array 
-  [t,y] = ;  # ODE solver to solve differential equations
+  [t,y] = ode45(@(t,y)RW_pendulum_dynamics(y, m1, m2, l1, wr, g, -K*(y-y_setpoint)),tspan,y0);  # ODE solver to solve differential equations
 endfunction
 
 ## Function : RW_pendulum_main()
@@ -207,9 +221,9 @@ function RW_pendulum_main()
 
 ## Function Calls for different control techniques for stabilizing RW Pendulum
   
-  [t,y] = sim_RW_pendulum(m1, m2, l1, wr, g, y0);
-##  [t,y] = pole_place_RW_pendulum(m1, m2, l1, wr, g, y_setpoint, y0);
-##  [t,y] = lqr_RW_pendulum(m1, m2, l1, wr, g, y_setpoint, y0);
+##  [t,y] = sim_RW_pendulum(m1, m2, l1, wr, g, y0)
+  [t,y] = pole_place_RW_pendulum(m1, m2, l1, wr, g, y_setpoint, y0)
+##  [t,y] = lqr_RW_pendulum(m1, m2, l1, wr, g, y_setpoint, y0)
   
   for k = 1:length(t)
     draw_RW_pendulum(y(k, :), m1, m2, l1, wr);  # Function to draw current state of RW Pendulum
