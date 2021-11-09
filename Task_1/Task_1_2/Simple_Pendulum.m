@@ -176,8 +176,8 @@ function simple_pendulum_main()
   y_setpoint = [pi; 0];                ## Set Point 
   y0 = [pi/6 ; 0];                   ## Initial condtion
 ##  [t,y] = sim_pendulum(m,g,L, y0);        ## Test Simple Pendulum
-  [t,y] = pole_place_pendulum(m,g,L, y_setpoint, y0) ## Test Simple Pendulum with Pole Placement Controller
-##  [t,y] = lqr_pendulum(m,g,L, y_setpoint, y0);        ## Test Simple Pendulum with LQR Controller
+##  [t,y] = pole_place_pendulum(m,g,L, y_setpoint, y0); ## Test Simple Pendulum with Pole Placement Controller
+  [t,y] = lqr_pendulum(m,g,L, y_setpoint, y0);        ## Test Simple Pendulum with LQR Controller
   for k = 1:length(t)
     draw_pendulum(y(k, :), L);  
   endfor
