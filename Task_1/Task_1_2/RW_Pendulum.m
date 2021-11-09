@@ -221,9 +221,9 @@ function RW_pendulum_main()
 
 ## Function Calls for different control techniques for stabilizing RW Pendulum
   
-##  [t,y] = sim_RW_pendulum(m1, m2, l1, wr, g, y0)
-  [t,y] = pole_place_RW_pendulum(m1, m2, l1, wr, g, y_setpoint, y0)
-##  [t,y] = lqr_RW_pendulum(m1, m2, l1, wr, g, y_setpoint, y0)
+  [t,y] = sim_RW_pendulum(m1, m2, l1, wr, g, y0);
+##  [t,y] = pole_place_RW_pendulum(m1, m2, l1, wr, g, y_setpoint, y0);
+##  [t,y] = lqr_RW_pendulum(m1, m2, l1, wr, g, y_setpoint, y0);
   
   for k = 1:length(t)
     draw_RW_pendulum(y(k, :), m1, m2, l1, wr);  # Function to draw current state of RW Pendulum
