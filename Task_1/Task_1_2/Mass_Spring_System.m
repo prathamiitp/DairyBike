@@ -174,9 +174,9 @@ function mass_spring_main()
   y0 = [-0.3; 0];
   y_setpoint = [0.7; 0];
   
-  [t,y] = sim_mass_spring(m,k, y0);      ## Test mass spring system with no input
+##  [t,y] = sim_mass_spring(m,k, y0);      ## Test mass spring system with no input
 ##  [t,y] = pole_place_mass_spring(m, k, y_setpoint, y0); ## Test system with Pole Placement controller
-##   [t,y] = lqr_mass_spring(m, k, y_setpoint, y0);  ## Test system with LQR controller
+  [t,y] = lqr_mass_spring(m, k, y_setpoint, y0);  ## Test system with LQR controller
   for k = 1:length(t)
     draw_mass_spring(y(k, :));  
   endfor
