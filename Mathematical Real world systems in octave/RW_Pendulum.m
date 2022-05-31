@@ -229,3 +229,5 @@ function RW_pendulum_main()
     draw_RW_pendulum(y(k, :), m1, m2, l1, wr);  # Function to draw current state of RW Pendulum
   endfor
 endfunction
+
+RW_pendulum_main();
