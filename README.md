@@ -17,7 +17,7 @@ These Real world systems are:
 - [Simple_Pulley](https://github.com/prathamiitp/DairyBike/blob/master/Mathematical%20Real%20world%20systems%20in%20octave/Simple_Pulley.m)   
 ![image](https://user-images.githubusercontent.com/75429858/171190882-359a1f6a-d489-4234-83d6-135752e94542.png)
 - [Simple_Pendulum](https://github.com/prathamiitp/DairyBike/blob/master/Mathematical%20Real%20world%20systems%20in%20octave/Simple_Pendulum.m)  
-![image](https://user-images.githubusercontent.com/75429858/171191253-c80d1c95-2c8e-482b-8843-09179034bb03.png)
+![image](https://user-images.githubusercontent.com/75429858/171195099-0ec7b763-86e8-4dc2-82fb-6abec0d4bf00.png)
 - [Complex_Pulley](https://github.com/prathamiitp/DairyBike/blob/master/Mathematical%20Real%20world%20systems%20in%20octave/Complex_Pulley.m)  
 ![image](https://user-images.githubusercontent.com/75429858/171188800-2fa8ec09-0b9d-4254-b3a5-a3c17ddbad35.png)
 - [RW_Pendulum](https://github.com/prathamiitp/DairyBike/blob/master/Mathematical%20Real%20world%20systems%20in%20octave/RW_Pendulum.m) (Which is essentially reaction wheel based self balancing inverted pendulum, a active feedback control system that work on momentum conservation. Such systems are also used in space telescope to face there cameras to specific directions using three axis reaction wheel system.)   
