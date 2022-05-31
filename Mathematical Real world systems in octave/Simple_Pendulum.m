@@ -182,3 +182,5 @@ function simple_pendulum_main()
     draw_pendulum(y(k, :), L);  
   endfor
 endfunction
+
+simple_pendulum_main();
