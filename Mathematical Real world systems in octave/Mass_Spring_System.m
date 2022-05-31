@@ -181,3 +181,5 @@ function mass_spring_main()
     draw_mass_spring(y(k, :));  
   endfor
 endfunction
+
+mass_spring_main();
