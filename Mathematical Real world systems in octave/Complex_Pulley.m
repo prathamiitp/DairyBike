@@ -243,3 +243,5 @@ function complex_pulley_main()
   endfor
   
 endfunction
+
+complex_pulley_main();
