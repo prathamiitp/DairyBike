@@ -201,3 +201,5 @@ function simple_pulley_main()
     draw_pulley(y(k, :));  
   endfor
 endfunction
+
+simple_pulley_main();
