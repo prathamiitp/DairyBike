@@ -1,5 +1,10 @@
-# e-Yantra 2021 - DairyBike   
+<div align="center">  
     
+# Self Balancing Bike!    
+<img src="https://img.shields.io/badge/OCTAVE-darkblue?style=for-the-badge&logo=octave&logoColor=fcd683"/>
+    
+</div>  
+
 ## [Equation Solving In Octave](https://github.com/prathamiitp/DairyBike/tree/master/solving%20Eq%20in%20octave)
 This folder contain file written in Octave which shows the use of symbolic package and equation solving in octave, the specific code written in this finds Jacobian, Eigens value, and return whether a system is stable or unstable.
   
@@ -30,5 +35,15 @@ RW_pendulum
 ```
 
 ## [V-rep CppeliaSim simulations](https://github.com/prathamiitp/DairyBike/tree/master/V-rep%20CppeliaSim%20simulations)
-This folder contains the V-rep simulations of [Inverted Reaction Wheel Pendulum](https://github.com/prathamiitp/DairyBike/blob/master/V-rep%20CppeliaSim%20simulations/RW_pendulum.ttt), and [Self Balancing Bike](https://github.com/prathamiitp/DairyBike/blob/master/V-rep%20CppeliaSim%20simulations/Self_Balancing_Bike.ttt), a [base model](https://github.com/prathamiitp/DairyBike/blob/master/V-rep%20CppeliaSim%20simulations/Bike_Base.ttt) of this self balancing bike is also present to show the behavious without the active feedback reaction wheel control system.  
+This folder contains the following three V-rep simulations:  
+[Inverted Reaction Wheel Pendulum](https://github.com/prathamiitp/DairyBike/blob/master/V-rep%20CppeliaSim%20simulations/RW_pendulum.ttt)    
+[Self Balancing Bike](https://github.com/prathamiitp/DairyBike/blob/master/V-rep%20CppeliaSim%20simulations/Self_Balancing_Bike.ttt)  
+[base model](https://github.com/prathamiitp/DairyBike/blob/master/V-rep%20CppeliaSim%20simulations/Bike_Base.ttt) (of the self balancing bike to show the behavious without the active feedback reaction wheel control system)    
 To run these, just install CoppeliaSim EDU in your pc and start the simulation.
+
+<div align="center">  
+    
+# !!!Happy tinkering!!!
+## Don't forget to check the video for [Inverted_Reaction_Wheel_Pendulum](https://github.com/prathamiitp/DairyBike/blob/master/RW_pendulum_simulation.mp4) and [Self_Balancing_Bike](https://github.com/prathamiitp/DairyBike/blob/master/Self_balancing_bike.mp4)!!   
+    
+</div>
